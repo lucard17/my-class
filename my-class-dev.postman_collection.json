@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "f79abe30-254c-4e5e-89d6-0a36e4ff758c",
+		"name": "my-class-dev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27015704"
+	},
+	"item": [
+		{
+			"name": "lessons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{PORT}}/lessons?date=2019-09-02,2019-09-01&teacherIds=1,2,3&studentsCount=1,5&lessonsPerPage=1&page=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"lessons"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2024-02-01,2024-01-31",
+							"disabled": true
+						},
+						{
+							"key": "date",
+							"value": "2019-09-01",
+							"disabled": true
+						},
+						{
+							"key": "date",
+							"value": "2019-09-02,2019-09-01"
+						},
+						{
+							"key": "status",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "teacherIds",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "teacherIds",
+							"value": "1,2,3"
+						},
+						{
+							"key": "studentsCount",
+							"value": "1,5"
+						},
+						{
+							"key": "studentsCount",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "lessonsPerPage",
+							"value": "1"
+						},
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "restart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{PORT}}/restart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"restart"
+					],
+					"query": [
+						{
+							"key": "teacherIds",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "PORT",
+			"value": "5000",
+			"type": "string"
+		}
+	]
+}

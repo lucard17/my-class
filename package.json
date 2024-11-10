@@ -1,0 +1,51 @@
+{
+    "name": "nikolaev-my-class-test",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/server.js",
+        "build": "tsc --build --force --verbose",
+        "watch": "nodemon --watch dist --ext js --exec \"curl --request GET http://localhost:5001/restart && echo . ",
+        "ts:watch": "tsc --build --watch",
+        "knex:migrate:make": "knex --knexfile src/knex/knexfile.js migrate:make -x ts",
+        "knex:migrate:up": "knex --knexfile dist/knex/knexfile.js migrate:up",
+        "knex:migrate:down": "knex --knexfile dist/knex/knexfile.js migrate:down",
+        "knex:migrate:latest": "knex --knexfile dist/knex/knexfile.js migrate:latest",
+        "knex:migrate:rollback": "knex --knexfile src/knex/knexfile.ts migrate:rollback",
+        "eslint": "eslint",
+        "eslint-fix": "eslint --fix",
+        "tsc": "tsc --allowJs --noEmit"
+    },
+    "author": "lucard17",
+    "license": "ISC",
+    "dependencies": {
+        "commander": "^12.0.0",
+        "date-format": "^4.0.14",
+        "dotenv": "^16.3.1",
+        "express": "^4.21.1",
+        "knex": "^3.0.1",
+        "log4js": "^6.9.1",
+        "pg": "^8.11.3",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.23.6",
+        "@babel/preset-env": "^7.23.6",
+        "@babel/preset-typescript": "^7.24.7",
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.9.0",
+        "@typescript-eslint/eslint-plugin": "^8.13.0",
+        "@typescript-eslint/parser": "^8.13.0",
+        "eslint": "^9.13.0",
+        "eslint-plugin-jsdoc": "^50.3.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-unused-imports": "^4.1.4",
+        "nodemon": "^3.1.7",
+        "prettier": "^3.3.3",
+        "prettier-plugin-jsdoc": "^1.3.0",
+        "prettier-plugin-sql": "^0.18.1",
+        "ts-node": "^10.9.2"
+    }
+}

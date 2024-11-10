@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "incremental": true /* Save .tsbuildinfo files to allow for incremental compilation of projects. */,
+        "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
+        "sourceMap": true /* Create source map files for emitted JavaScript files. */,
+        "module": "NodeNext",
+        "target": "ES2018",
+        "rootDir": "./src" /* Specify the root folder within your source files. */,
+        "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+        "baseUrl": ".",
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "checkJs": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "ts-node": {
+        "esm": true,
+        "files": true
+    },
+    "exclude": [
+        "node_modules",
+        "src/**/*.test.*",
+        "src/**/*.spec.*"
+    ]
+}

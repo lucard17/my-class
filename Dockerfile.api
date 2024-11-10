@@ -1,0 +1,30 @@
+# syntax=docker/dockerfile:1
+
+FROM node:20.11-alpine as dependencies
+
+WORKDIR /app
+COPY ./package*.json .
+RUN npm install --omit=dev
+
+
+FROM dependencies as dev_dependencies
+WORKDIR /app
+RUN npm install --include=dev
+
+
+FROM node:20.11-alpine as development
+WORKDIR /app
+COPY --from=dev_dependencies /app/node_modules /app/node_modules
+
+
+FROM dev_dependencies as build
+WORKDIR /app
+COPY ./src ./src
+COPY ./tsconfig.json ./tsconfig.json
+RUN npm run build
+
+FROM node:20.11-alpine as production
+WORKDIR /app
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/package.json /app/package.json
+COPY --from=dependencies /app/node_modules /app/node_modules

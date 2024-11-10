@@ -1,0 +1,127 @@
+name: nikolaev
+networks:
+  api-net:
+    driver: bridge
+
+volumes:
+  postgres-vol:
+    driver: local
+
+x-pg-default:
+  environment: &pg-env
+    PGPORT: ${POSTGRES_PORT}
+    POSTGRES_DB: ${POSTGRES_DB}
+    POSTGRES_USER: ${POSTGRES_USER}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+x-api-default:
+  environment: &api-env
+    <<: *pg-env
+    POSTGRES_HOST: "pg"
+    NODE_ENV: ${NODE_ENV}
+
+services:
+  pg:
+    container_name: pg
+    image: postgres:16.1-alpine
+    environment:
+      <<: *pg-env
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./dump:/docker-entrypoint-initdb.d
+    networks:
+      - api-net
+    command:
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgresql/postgresql.conf"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  api:
+    container_name: nikolaev-api
+
+    build:
+      context: .
+      dockerfile: ./Dockerfile.api
+      target: production
+
+    environment:
+      <<: *api-env
+      PORT: ${API_PORT}
+      NODE_ENV: production
+
+    # for nginx
+    # expose:
+    #   - ${API_PORT}
+
+    ports:
+      - "${API_PORT}:${API_PORT}"
+
+    depends_on:
+      pg:
+        condition: service_healthy
+
+    networks:
+      - api-net
+
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 5
+
+    command: "/bin/sh -c 'npm run knex:migrate:latest && node ./dist/server.js'"
+    restart: unless-stopped
+
+  api-dev:
+    container_name: nikolaev-api-dev
+
+    build:
+      context: .
+      dockerfile: ./Dockerfile.api
+      target: development
+
+    environment:
+      <<: *api-env
+      PORT: ${API_PORT_DEV}
+      NODE_ENV: development
+
+    # for nginx
+    # expose:
+    #   - ${API_PORT_DEV}
+
+    ports:
+      - "${API_PORT_DEV}:${API_PORT_DEV}"
+      #for debugger
+      - "9229:9229"
+      - "9230:9230"
+
+    volumes:
+      - ./dist:/app/dist
+      - ./package.json:/app/package.json
+
+    depends_on:
+      pg:
+        condition: service_healthy
+
+    networks:
+      - api-net
+
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 5
+
+    command: "/bin/sh -c 'node ./dist/server.js'"
+    restart: unless-stopped
