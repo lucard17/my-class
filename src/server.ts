@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === "development") {
     });
 }
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5005;
 app.listen(port, () => {
     log.info("Server is running on port %s", port);
 });
