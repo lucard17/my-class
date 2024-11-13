@@ -8,7 +8,7 @@ export class SqlValuesArray extends Array {
      * Вставляет значение в массив и возвращает "?" для подстановки в текст запроса
      */
     //@ts-ignore
-    push(value: any) {
+    push(value: unknown) {
         super.push(value);
         return "?";
     }
@@ -17,7 +17,7 @@ export class SqlValuesArray extends Array {
  * Соединяет строки с условиями через AND и оборачивает в скобки, фильтрует пустые значения Если условий нет, или все строки пустые, возвращает пустую
  * строку
  */
-export function and(...args: any[]) {
+export function and(...args: string[]) {
     const filtered = args.filter((i) => i !== "" && i !== undefined);
     if (!filtered.length) return "";
     return "(" + filtered.join(" AND ") + ")";
@@ -26,10 +26,20 @@ export function and(...args: any[]) {
 /**
  * Соединяет строки с условиями через OR и оборачивает в скобки, фильтрует пустые значения Если условий нет, или все строки пустые, возвращает пустую строку
  */
-export function or(...args: any[]) {
+export function or(...args: string[]) {
     const filtered = args.filter((i) => i !== "" && i !== undefined);
     if (!filtered.length) return "";
     return "(" + filtered.join(" OR ") + ")";
+}
+
+/**
+ * Соединяет строки с условиями через AND и оборачивает в скобки, фильтрует пустые значения Если условий нет, или все строки пустые, возвращает пустую
+ * строку
+ */
+export function intersect(...args: string[]) {
+    const filtered = args.filter((i) => i !== "" && i !== undefined);
+    if (!filtered.length) return "";
+    return filtered.join(" INTERSECT ");
 }
 
 /**

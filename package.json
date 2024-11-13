@@ -7,9 +7,12 @@
     "scripts": {
         "start": "node src/server.js",
         "build": "tsc --build --force --verbose",
-        "watch": "nodemon --watch dist --ext js --exec \"curl --request GET http://localhost:5001/restart && echo . ",
+        "watch": "nodemon --watch dist --ext js --exec \"curl --request GET http://localhost:5010/restart && echo . ",
         "ts:watch": "tsc --build --watch",
         "knex:migrate:make": "knex --knexfile src/knex/knexfile.js migrate:make -x ts",
+        "knex:seed:make": "knex --knexfile src/knex/knexfile.js seed:make -x ts",
+        "knex:seed:run:dev": "NODE_ENV=development knex --knexfile dist/knex/knexfile.js seed:run",
+        "knex:seed:run:dev:specific": "NODE_ENV=development knex --knexfile dist/knex/knexfile.js seed:run --specific",
         "knex:migrate:up": "knex --knexfile dist/knex/knexfile.js migrate:up",
         "knex:migrate:down": "knex --knexfile dist/knex/knexfile.js migrate:down",
         "knex:migrate:latest": "knex --knexfile dist/knex/knexfile.js migrate:latest",
@@ -21,6 +24,7 @@
     "author": "lucard17",
     "license": "ISC",
     "dependencies": {
+        "@faker-js/faker": "^9.2.0",
         "commander": "^12.0.0",
         "date-format": "^4.0.14",
         "dotenv": "^16.3.1",

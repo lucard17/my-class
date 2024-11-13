@@ -1,35 +1,35 @@
 import { Knex } from "knex";
 
 declare module "knex/types/tables.js" {
-    interface Lesson {
+    export interface Lesson {
         id: number;
         date: Date;
         title: string;
         status: 0 | 1;
     }
-    interface Student {
+    export interface Student {
         id: number;
         name: string;
     }
-    interface Teacher {
+    export interface Teacher {
         id: number;
         name: string;
     }
-    interface LessonTeacher {
+    export interface LessonTeacher {
         lesson_id: number;
         teacher_id: number;
     }
-    interface LessonStudent {
+    export interface LessonStudent {
         lesson_id: number;
         student_id: number;
         visit: boolean;
     }
 
-    interface Tables {
+    export interface Tables {
         lessons: Lesson;
         lessons_composite: Knex.CompositeTableType<
             Lesson,
-            Pick<Lesson, "title"> & (Pick<Lesson, "title"> | string) & Partial<Pick<Lesson, "status">>,
+            Pick<Lesson, "title"> & (Pick<Lesson, "date"> | string) & Partial<Pick<Lesson, "status">>,
             Partial<Omit<Lesson, "id">>
         >;
 

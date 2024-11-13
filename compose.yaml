@@ -22,7 +22,7 @@ x-api-default:
 
 services:
   pg:
-    container_name: pg
+    container_name: nikolaev-pg
     image: postgres:16.1-alpine
     environment:
       <<: *pg-env
